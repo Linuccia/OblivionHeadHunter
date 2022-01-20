@@ -20,8 +20,12 @@ public class AdminService {
     private final GuildRepository guildRepository;
     private final QuestRepository questRepository;
 
+    public String getGuildName(String adminName) {
+        return guildRepository.findByAdminName(adminName).getName();
+    }
+
     public List<Request> getRequests(String adminName) {
-        return requestRepository.findByGuildName(guildRepository.findByAdminName(adminName).getName());
+        return requestRepository.findByGuildName(getGuildName(adminName));
     }
 
     public void changeRang(String heroName, String guildName, String rang) {
@@ -45,7 +49,7 @@ public class AdminService {
         Integer rewId = questRepository.setReward(rewDescription, reward.getPower(), reward.getIntellect(),
                 reward.getWillpower(), reward.getDexterity(), reward.getSpeed(), reward.getEndurance(),
                 reward.getCharm(), reward.getLuck());
-        questRepository.addQuest(name, guildRepository.findByAdminName(adminName).getName(), description, condId, rewId);
+        questRepository.addQuest(name, getGuildName(adminName), description, condId, rewId);
         return true;
     }
 

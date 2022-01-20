@@ -1,11 +1,13 @@
 package com.isdb.oblivionheadhunter.controller;
 
 import com.isdb.oblivionheadhunter.model.GuildMember;
+import com.isdb.oblivionheadhunter.model.Quest;
 import com.isdb.oblivionheadhunter.model.Request;
 import com.isdb.oblivionheadhunter.model.pojo.NewQuest;
 import com.isdb.oblivionheadhunter.model.pojo.RequestDecision;
 import com.isdb.oblivionheadhunter.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.isdb.oblivionheadhunter.service.GuildService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,13 +18,22 @@ import java.util.List;
 @RestController
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/main/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService service;
+    private final GuildService guildService;
 
-    @Autowired
-    public AdminController(AdminService service) {
-        this.service = service;
+    @GetMapping("/members")
+    List<GuildMember> showMembers() {
+        String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+        return guildService.getGuildMembers(service.getGuildName(principalLogin));
+    }
+
+    @GetMapping("/quests")
+    List<Quest> showQuests() {
+        String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+        return guildService.getGuildQuests(service.getGuildName(principalLogin));
     }
 
     @GetMapping("/requests")
