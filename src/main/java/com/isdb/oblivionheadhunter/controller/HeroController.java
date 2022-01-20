@@ -4,19 +4,19 @@ import com.isdb.oblivionheadhunter.model.Attributes;
 import com.isdb.oblivionheadhunter.model.Hero;
 import com.isdb.oblivionheadhunter.model.pojo.HeroAndAttributes;
 import com.isdb.oblivionheadhunter.model.Quest;
+import com.isdb.oblivionheadhunter.model.pojo.QuestEnd;
 import com.isdb.oblivionheadhunter.service.HeroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/main/hero")
+@RequestMapping("/main/user")
 public class HeroController {
 
     private final HeroService service;
@@ -38,6 +38,12 @@ public class HeroController {
     List<Quest> showHeroQuests() {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.getHeroQuests(principalLogin);
+    }
+
+    @PostMapping("/quests/end")
+    ResponseEntity<?> endQuest(@RequestBody QuestEnd questEnd) {
+        service.endQuest(questEnd.getQuestName(), questEnd.getResult(), questEnd.getDescription());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

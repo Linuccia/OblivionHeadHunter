@@ -31,4 +31,8 @@ public class HeroService {
         return questRepository.findByHeroName(heroName);
     }
 
+    public void endQuest(String questName, String result, String description) {
+        questRepository.endQuestRequest(questName, result, description);
+    }
+
 }

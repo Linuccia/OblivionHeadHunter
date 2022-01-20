@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/admin")
+@RequestMapping("/main/admin")
 public class AdminController {
 
     private final AdminService service;
