@@ -382,6 +382,7 @@ begin
                             обаяние = обаяние + b_charm,
                             удача = удача + b_luck
         where ид=attributes_id;
+        update герои set уровень = уровень + 1 where имя = 'hero_name';
     else if decision='отклонить' then
         update квесты set герой_имя=NULL, статус=NULL where герой_имя=hero_name and статус='начат';
     end if;
