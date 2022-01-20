@@ -1,0 +1,459 @@
+create table if not exists атрибуты
+(
+    ид           bigint primary key,
+    сила         int           not null,
+    интеллект    int           not null,
+    сила_воли    int           not null,
+    ловкость     int           not null,
+    скорость     int           not null,
+    выносливость int           not null,
+    обаяние      int           not null,
+    удача        int           not null
+);
+
+create table if not exists классы
+(
+    название    varchar(255) PRIMARY KEY,
+    описание    text   not null,
+    атрибуты_ид bigint not null references атрибуты (ид)
+);
+
+insert into атрибуты values(11,  0, 10, 10, 0, 0, 0, 0, 0);
+insert into атрибуты values(12,  10, 10, 0, 0, 0, 0, 0, 0);
+insert into атрибуты values(13,  0, 10, 0, 0, 0, 10, 0, 0);
+insert into атрибуты values(14,  0, 0, 0, 10, 10, 0, 0, 0);
+insert into атрибуты values(15,  0, 10, 0, 10, 0, 0, 0, 0);
+insert into атрибуты values(16,  0, 0, 0, 0, 0, 10, 10, 0);
+insert into атрибуты values(17,  10, 0, 0, 0, 0, 0, 10, 0);
+insert into атрибуты values(18,  10, 0, 10, 0, 0, 0, 0, 0);
+insert into атрибуты values(19,  10, 0, 0, 10, 0, 0, 0, 0);
+
+
+insert into классы values('Маг', 'Предпочитая использовать свои обширные знания в магии, они, возможно, обладают большей силой, чем мастера оружия. Большинство магов предпочитают изучать магию ради чистого познания, но они также получают выгоду от её практического применения. Маги имеют различные виды темперамента и мотивации, но их объединяет одно — способности к колдовству', 11);
+
+insert into классы values('Боевой маг', 'Могут решить большинство конфликтов либо мечом, либо магией. Они представляют собой смертоносное сочетание мага и воина. Они жертвуют мобильностью и ловкостью, чтобы использовать рукопашный бой и заклинания, наносящие разнообразный урон, а также вызывать существ', 12);
+
+insert into классы values('Чародей', 'Наилучшие среди наиболее оснащённых бойцов, полагающихся на заклинания мистицизма. Уникальность этих магов состоит в том, что высокая выносливость позволяет им носить тяжёлую броню. Хотя они заклинатели по призванию, чародеи полагаются в основном на призывание и зачарование. Они весьма плотно используют магические свитки, кольца, броню и оружие, а также призывают под своё командование нежить и даэдрические существа', 13);
+
+insert into классы values('Вор', 'Прибыль от краж у других является для них основной. Могут быть быстрыми в тени и лукавыми при торговле. Замки для них — враги, отмычки — мечи. Воры обычно бывают карманниками или мелкими воришками. В отличии от грабителей, которые убивают ради наживы, воры, как правило, выбирают путь скрытности и уловок, не прибегая к насилию, что нередко придаёт романтические нотки их деятельности', 14);
+
+insert into классы values('Ассасин', 'Проворные и спокойные, они перемещаются в тени, готовя убийство ничего не подозревающих жертв. Замки никогда не бывают закрыты для них. Ассассины — убийцы, полагающиеся на скрытность и мобильность, подбираются к своим жертвам незамеченными. Они могут использовать различное оружие, включая короткие клинки для "тесного контакта". Ассассины являются безжалостными убийцами, они отличаются от благородных агентов', 15);
+
+insert into классы values('Пилигрим', 'Умудрены опытом долгих странствий, зачастую хорошо разбираются в старых книгах. Они часто бывают на рынках, торгуясь или убеждая несговорчивых. Пилигримы — путешественники, искатели истины и просветления. Для защиты в дороге оттачивают владение оружием и доспехами, которые сами же и чинят — и благодаря всесторонниму жизненному опыту всегда найдут выход из трудных ситуаций', 16);
+
+insert into классы values('Воин', 'Не боящиеся лёгкого оружия, они выходят из боя с минимальными ранениями. Мастера всех ближних видов боя, они слабо верят в магические искусства. Воины — профессиональные "люди оружия", солдаты, наёмники и авантюристы империи, подготовленные к использованию различных видов оружия и брони и закаленные многими засадами, стычками и сражениями', 17);
+
+insert into классы values('Паладин', 'Воин, который отличается одновременно как грубой силой, так и возможностью исцелять. Обманывая смерть после каждого боя, они полагаются на их знания восстановления и снова идут в бой. Любой воин, одетый в тяжёлую броню и со способностью колдовать, легко может назвать себя Паладином. Паладины — защитники добра, что отражается на их поступках. Они охотятся на монстров и злодеев, что делает их богатыми благодаря трофеям, в то время когда они спасают мир ото зла', 18);
+
+insert into классы values('Лучник', 'Стрелок — знаток боя на дальних расстояниях. Имеет возможность убрать своих врагов до того, как те смогут использовать свой меч, полагаясь на скрытность и манёвренность. И лишь после того, как враги уже изранены и измотаны, или когда отступать некогда, лучники берутся за оружие ближнего боя', 19);
+
+create table if not exists созвездия
+(
+    название    varchar(255) primary key,
+    описание    text   not null,
+    атрибуты_ид bigint not null references атрибуты (ид)
+);
+
+insert into атрибуты values(20,  10, 0, 0, 0, 0, 10, 0, 0);
+insert into атрибуты values(21,  0, 0, 0, 10, 0, 0, 0, 5);
+insert into атрибуты values(22,  0, 10, 10, 0, 0, 0, 0, 0);
+insert into атрибуты values(23, 0, 20, 0, 0, 0, 0, 0, 0);
+insert into атрибуты values(24,  0, 0, 15, 5, 0, 0, 0, 0);
+insert into атрибуты values(25,  0, 0, 0, 0, 20, 0, 0, 0);
+insert into атрибуты values(26,  0, 5, 5, 5, 5, 0, 0, 0);
+insert into атрибуты values(27,  0, 0, 0, 0, 0, 0, 20, 0);
+insert into атрибуты values(28,  10, 0, 0, 0, 0, 0, 10, 0);
+insert into атрибуты values(29,  0, 0, 0, 0, 0, 0, 10, 5);
+insert into атрибуты values(30,  0, 0, 0, 10, 5, 5, 10, 0);
+insert into атрибуты values(31,  0, 0, 15, 5, 0, 0, 0, 0);
+insert into атрибуты values(32, 0, 0, 0, 20, 0, 0, 0, 0);
+
+insert into созвездия values('Воин',  'Воин — созвездие хранителя, который защищает своих подданных во время своего сезона (от месяца Первоцвета до месяца Сева). Его подданные — это Леди, Конь и Лорд. Рождённые под знаком воина хорошо владеют всеми видами оружия, но обладают вспыльчивой натурой', 20);
+
+insert into созвездия values('Вор',  'Вор — это последнее созвездие-хранитель. Его время: темные месяцы от месяца Заката до месяца Утренней Звезды. Подданные: Любовник, Тень и Башня. Рожденные под знаком вора не обязательно являются ворами, но они чаще ими становятся и очень редко попадаются. Им, однако, будет не хватать удачи, поэтому они будут жить меньше, чем рожденные под другими знаками', 21);
+
+insert into созвездия values('Маг',  'Это созвездие хранителя, чей сезон длится от месяца Заката до месяца Утренней Звезды. Его подданные: Подмастерье, Атронах и Ритуал. Рождённые под знаком Мага имеют предрасположенность к магии, но часто надменны и рассеянны', 22);
+
+insert into созвездия values('Атронах',  'Атронах (очень часто его называют Голем) — один из подданных Мага. Его сезон — месяц Заката. Рождённые под этим знаком — прирожденные маги, однако, они не могут генерировать свою магическую энергию', 23);
+
+insert into созвездия values('Башня',  'Это один из подданных Вора. Ее сезон — месяц Мороза. Рождённые под знаком Башни умеют находить золото, а также могут открывать любые замки.', 24);
+
+insert into созвездия values('Жеребец',  'Это один из подданных Воина, его сезон — месяц Середины Года. Рождённые под знаком Жеребца очень нетерпеливы, всё время куда-то торопятся.', 25);
+
+insert into созвездия values('Змей',  'Змей путешествует по небу. У него нет своего сезона, но передвижения его можно предсказать с определенной долей вероятности. Никаких определённых качеств нельзя выделить у рождённых под этим знаком. Они могут быть как благословенными, так и проклятыми', 26);
+
+insert into созвездия values('Леди',  'Леди — одна из подданных Воина, её время — месяц Огня. Рождённые под знаком Леди всегда очень приятные люди, обладающие большим терпением', 27);
+
+insert into созвездия values('Лорд',  'Его сезон — месяц Первоцвета, он следит за всеми в Тамриэле во время посева. Рождённые под знаком Лорда сильнее и здоровее рождённых под другими знаками', 28);
+
+insert into созвездия values('Любовник',  'Любовник — один из подданных Вора, его сезон — месяц Восхода. Рождённые под знаком Любовника очень привлекательны и страстны', 29);
+
+insert into созвездия values('Подмастерье',  'Сезон Подмастерья — месяц Солнцеворота. Рождённые под знаком Подмастерья предрасположены к магии любого рода, но также и более уязвимы для неё.', 30);
+
+insert into созвездия values('Ритуал',  'Это один из подданных Мага. Его сезон — месяц Утренней Звезды. Рождённые под этим знаком обладают различными способностями в зависимости от положения их лун и святых', 31);
+
+insert into созвездия values('Тень',  'Сезон Тени — месяц Сева. Рождённые под знаком Тени умеют прятаться в тени', 32);
+
+
+create table if not exists расы
+(
+    название    varchar(255) primary key,
+    описание    text   not null,
+    атрибуты_ид bigint not null references атрибуты (ид)
+);
+
+insert into атрибуты values(1, 30, 50, 40, 40, 30, 40, 40, 50);
+insert into атрибуты values(2, 40, 40, 30, 50, 50, 30, 30, 50);
+insert into атрибуты values(3, 30, 40, 30, 50, 50, 40, 30, 50);
+insert into атрибуты values(4, 40, 50, 50, 30, 30, 30, 40, 50);
+insert into атрибуты values(5,  40, 40, 30, 40, 50, 40, 30, 50);
+insert into атрибуты values(6,  40, 40, 30, 30, 40, 40, 50, 50);
+insert into атрибуты values(7,  40, 40, 30, 50, 40, 30, 40, 50);
+insert into атрибуты values(8,  50, 30, 30, 40, 40, 50, 30, 50);
+insert into атрибуты values(9,  45, 30, 50, 35, 30, 50, 30, 50);
+insert into атрибуты values(10,  50, 30, 30, 40, 30, 50, 30, 50);
+
+insert into расы values('Высокий эльф', 'Высокие эльфы, также известные как Альтмеры относят себя к наиболее высокоразвитой культуре Тамриэля и имеют для этого все основания. Высокие эльфы магически одарены, имеют высокую сопротивляемость болезням, но зато больше других уязвимы к стихийным магическим атакам', 1);
+
+insert into расы values('Аргонианин', 'Эти рептилии прекрасно приспособлены для обитания в болотах их родины – Чернотопья. Они имеют иммунитет к ядам и очень высокую сопротивляемость болезням, как болотные жители они могут дышать под водой', 2);
+
+insert into расы values('Лесной эльф', 'Родственники Высоких и Темных эльфов, Лесные эльфы живут на лоне природы в лесах Западного Валенвуда. Из-за своей природной ловкости великолепно подходят на роль разведчиков, агентов и воров. Но более всего они славятся своим искусством обращения с луками, во всем Тамриэле нет более искусных лучников', 3);
+
+insert into расы values('Бретонец', 'Бретонцы имеют врожденную связь с магическими силами. Множество великих магов родом из провинции Бретонцев - Хай Рок. Вдобавок к интуитивному пониманию магии даже самые скромные Бретонцы имеют врожденную сопротивляемость к разрушительным и подавляющим магическим энергиям', 4);
+
+insert into расы values('Данмер', 'В империи их часто называют "Темные эльфы", но у себя на родине в провинции Морровинд они называют себя Данмерами. Данмеры сочетают в себе интеллект и хорошую физическую форму и из них выходят как хорошие воины, так и неплохие маги. Темные эльфы имеют врожденную сопротивляемость огню и могут вызвать себе в помощь духов предков', 5);
+
+insert into расы values('Имперец', 'Коренные жители Сиродиила Имперцы известны своей дисциплинированностью и выучкой солдат. Хотя они по сравнению с некоторыми другими расами имеют не такие впечатляющие физические данные, они являются хорошими дипломатами и торговцами. Именно эти качества позволили им подчинить другие народы и создать великую империю', 6);
+
+insert into расы values('Каджит','Хаджиты родом из области Эльсвейер (Elsweyr), они умны, быстры и проворны. Из них получаются превосходные воры из-за их естественного проворства и склонности к акробатике. Все Хаджиты хорошо видят в темноте', 7);
+
+insert into расы values('Норд','Жители Скайрима, высокие светловолосые Нордлинги, знамениты своей устойчивостью к холоду. Сильные и выносливые Нордлинги прирожденные специалисты в оружейных навыках и в ношения доспехов. Из них получаются могучие воины', 8);
+
+insert into расы values('Орк', 'Орки, чья родина Ротгариан и хребет Драконьего Хвоста, являются одними из самых лучших бойцов в Тамриэле. Они славятся своей храбростью и стойкостью в бою', 9);
+
+insert into расы values('Редгард', 'Самые одаренные от природы воины Тамриэля, темнокожие Редгарды из Хаммерфелла как будто были специально созданы для боя. Наряду с их природной склонностью к использованию доспехов и оружия, Редгарды наделены крепким сложением и обладают приличной скоростью', 10);
+
+create table if not exists герои
+(
+    имя                varchar(255) primary key,
+    пол                varchar(255)          not null,
+    уровень            int          not null check (уровень > 0),
+    раса_название      varchar(255) not null references расы (название),
+    класс_название     varchar(255) not null references классы (название),
+    созвездие_название varchar(255) not null references созвездия (название),
+    атрибуты_ид        bigint       not null references атрибуты (ид)
+);
+
+create table if not exists users
+(
+    login varchar(255) primary key references герои (имя),
+    password varchar(255) not null,
+    role varchar(255) not null
+);
+
+create table if not exists гильдии
+(
+    название varchar(255) primary key,
+    глава_ид varchar(255) not null unique references герои (имя)
+);
+
+
+create table if not exists гильдии_составы
+(
+    герой_имя        varchar(255) references герои (имя),
+    гильдия_название varchar(255) references гильдии (название),
+    ранг             varchar(255) not null,
+    primary key (герой_имя, гильдия_название)
+);
+
+
+create table if not exists заявки
+(
+    ид               int primary key,
+    тип              varchar(255) not null,
+    герой_имя        varchar(255) references герои (имя),
+    гильдия_название varchar(255) references гильдии (название),
+    описание         text
+);
+
+
+create table if not exists условия_взятия
+(
+    ид          int primary key,
+    мин_уровень int    not null check ( мин_уровень > 0 ),
+    атрибуты_ид bigint not null references атрибуты (ид)
+);
+
+
+create table if not exists награды
+(
+    ид          int primary key,
+    описание    text   not null,
+    атрибуты_ид bigint not null references атрибуты (ид)
+);
+
+
+
+create table if not exists квесты
+(
+    название         varchar(255) primary key,
+    гильдия_название varchar(255) references гильдии (название),
+    описание         text not null,
+    условия_взятия int  not null references условия_взятия (ид),
+    награда          int  not null references награды (ид),
+    герой_имя        varchar(255) references герои (имя),
+    статус           varchar(255)
+);
+
+
+create sequence if not exists атрибуты_ids start 33;
+create sequence if not exists условия_ids start 1;
+create sequence if not exists награды_ids start 1;
+create sequence if not exists заявки_ids start 1;
+
+--Функции
+--Добавление нового квеста
+
+create or replace function SET_CONDITIONS(min_level int, power int, intellect int, willpower int, dexternity int, speed int,
+                                          endurance int, charm int, luck int) returns integer
+    Language plpgsql
+as
+$$
+begin
+    insert into атрибуты
+    values (nextval('атрибуты_ids'), power, intellect, willpower, dexternity, speed, endurance, charm,
+            luck);
+    insert into условия_взятия values (nextval('условия_ids'), min_level, currval('атрибуты_ids'));
+    return currval('условия_ids');
+end;
+$$;
+
+create or replace function SET_REWARD(description text, power int, intellect int, willpower int, dexternity int, speed int,
+                                      endurance int, charm int, luck int) returns integer
+    Language plpgsql
+as
+$$
+begin
+    insert into атрибуты
+    values (nextval('атрибуты_ids'), power, intellect, willpower, dexternity, speed, endurance,
+            charm, luck);
+    insert into награды values (nextval('награды_ids'), description, currval('атрибуты_ids'));
+    return currval('награды_ids');
+end;
+$$;
+
+create or replace function ADD_QUEST(name varchar, guild_name varchar, description text, conditions_id int,
+                                     reward_id int) returns void
+    Language plpgsql
+as
+$$
+begin
+    insert into квесты values (name, guild_name, description, conditions_id, reward_id, NULL, NULL);
+end;
+$$;
+
+--
+--Взятие квеста
+
+create or replace function GET_QUEST(quest_name varchar, user_id varchar) returns bool
+    Language plpgsql
+as
+$$
+declare
+    u_level      int; u_power int; u_intellect int; u_willpower int; u_dexternity int; u_speed int;
+    u_endurance  int; u_charm int; u_luck int; q_level int; q_power int; q_intellect int; q_willpower int;
+    q_dexternity int; q_speed int; q_endurance int; q_charm int; q_luck int;
+begin
+    select @u_level = г.уровень,
+           @u_power = а.сила,
+           @u_intellect = а.интеллект,
+           @u_willpower = а.сила_воли,
+           @u_dexternity = а.ловкость,
+           @u_speed = а.скорость,
+           @u_endurance = а.выносливость,
+           @u_charm = а.обаяние,
+           @u_luck = а.удача
+    from герои г
+             inner join атрибуты а on г.атрибуты_ид = а.ид
+    where г.имя = user_id;
+
+    select @q_level = ув.мин_уровень,
+           @q_power = а.сила,
+           @q_intellect = а.интеллект,
+           @q_willpower = а.сила_воли,
+           @q_dexternity = а.ловкость,
+           @q_speed = а.скорость,
+           @q_endurance = а.выносливость,
+           @q_charm = а.обаяние,
+           @q_luck = а.удача
+    from квесты к
+             inner join условия_взятия ув on к.условия_взятия = ув.ид
+             inner join атрибуты а on ув.атрибуты_ид = а.ид
+    where к.название = quest_name;
+
+    if @u_level <= q_level and @u_power <=@ q_power and @u_intellect <=@ q_intellect and
+       @u_willpower <=@ q_willpower and @u_dexternity <=@ q_dexternity and @u_speed <=@ q_speed and
+       @u_endurance <=@ q_endurance and @u_charm <=@ q_charm and @u_luck <=@ q_luck then
+        update квесты set герой_имя=user_id, статус='начат' where название = quest_name;
+        return true;
+    else
+        return false;
+    end if;
+end;
+$$;
+
+--
+--Вступление в гильдию
+
+create or replace function ENTER_GUILD_REQUEST(hero_name varchar, guild_name varchar) returns void
+    Language plpgsql
+as
+$$
+begin
+    insert into заявки values (nextval('заявки_ids'), 'вступление', hero_name, guild_name, null);
+end;
+$$;
+
+create or replace function CONSIDER_ENTER_GUILD_REQUEST(request_id int, decision varchar, rang varchar) returns void
+    Language plpgsql
+as
+$$
+declare hero_name varchar; guild_name varchar;
+begin
+    if decision = 'принять' then
+        select hero_name=герой_имя, guild_name=гильдия_название from заявки where ид=request_id;
+        insert into гильдии_составы values (hero_name, guild_name, rang);
+        delete from заявки where ид=request_id;
+    end if;
+    delete from заявки where ид=request_id;
+end;
+$$;
+
+--
+--Завершение квеста
+
+create or replace function END_QUEST_REQUEST(quest_name varchar, result varchar, description text) returns void
+    Language plpgsql
+as
+$$
+declare guild_name varchar; hero_name varchar;
+begin
+    select guild_name=гильдия_название, hero_name=герой_имя from квесты where название=quest_name and статус='начат';
+    if result='провал' then
+        update квесты set герой_имя = NULL, статус  = NULL where название=quest_name;
+    else if result='успех' then
+        update квесты set статус = 'рассматривается' where название = quest_name;
+        insert into заявки values (nextval('заявки_ids'), 'завершение_квеста', hero_name, guild_name, description);
+    end if;
+    end if;
+end;
+$$;
+
+create or replace function CONSIDER_END_QUEST_REQUEST(request_id int, decision varchar) returns void
+    Language plpgsql
+as
+$$
+declare hero_name varchar; quest_name varchar; b_power int; b_intellect int; b_willpower int; b_dexternity int; b_speed int;
+        b_endurance  int; b_charm int; b_luck int; attributes_id bigint;
+begin
+    select hero_name=герой_имя from заявки where ид=request_id;
+    select quest_name=название from квесты where герой_имя=hero_name and статус='начат';
+    if decision = 'одобрить' then
+        update квесты set статус='завершен' where название=quest_name;
+        select @b_power = а.сила,
+               @b_intellect = а.интеллект,
+               @b_willpower = а.сила_воли,
+               @b_dexternity = а.ловкость,
+               @b_speed = а.скорость,
+               @b_endurance = а.выносливость,
+               @b_charm = а.обаяние,
+               @b_luck = а.удача
+        from квесты к
+                 inner join награды н on к.награда = н.ид
+                 inner join атрибуты а on н.атрибуты_ид = а.ид
+        where к.название = quest_name;
+        select attributes_id=атрибуты_ид from герои where имя=hero_name;
+        update атрибуты set сила = сила + b_power,
+                            интеллект = интеллект + b_power,
+                            сила_воли = сила_воли + b_willpower,
+                            ловкость = ловкость + b_dexternity,
+                            скорость = скорость + b_speed,
+                            выносливость = выносливость + b_endurance,
+                            обаяние = обаяние + b_charm,
+                            удача = удача + b_luck
+        where ид=attributes_id;
+    else if decision='отклонить' then
+        update квесты set герой_имя=NULL, статус=NULL where герой_имя=hero_name and статус='начат';
+    end if;
+    end if;
+    delete from заявки where ид=request_id;
+end;
+$$;
+
+--
+--Повышение ранга
+
+create or replace function CHANGE_RANG(hero_name varchar, guild_name varchar, new_rang varchar) returns void
+    Language plpgsql
+as
+$$
+begin
+    update гильдии_составы set ранг=new_rang where герой_имя=hero_name and гильдия_название=guild_name;
+end;
+$$;
+
+--
+
+-- Триггеры
+
+CREATE OR REPLACE FUNCTION delete_cascade_hero() RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    DELETE FROM атрибуты WHERE атрибуты.ид = old.атрибуты_ид;
+    DELETE FROM заявки WHERE заявки.герой_имя = old.имя;
+    DELETE FROM гильдии_составы WHERE гильдии_составы.герой_имя = old.имя;
+    DELETE FROM users WHERE users.login = old.имя;
+    DELETE FROM квесты WHERE квесты.статус = 'завершен' and квесты.герой_имя = old.имя;
+    UPDATE квесты SET квесты.статус = NULL, квесты.герой_имя = NULL where квесты.герой_имя = old.имя and квесты.статус = 'начат';
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER remove_hero
+    AFTER DELETE
+    ON герои
+    FOR EACH ROW
+EXECUTE PROCEDURE delete_cascade_hero();
+
+CREATE OR REPLACE FUNCTION delete_cascade_quest() RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    DELETE FROM условия_взятия  WHERE условия_взятия.ид = old.условия_взятия;
+    DELETE FROM награды WHERE награды.ид = old.награда;
+    DELETE FROM атрибуты WHERE атрибуты.ид = (SELECT атрибуты_ид FROM условия_взятия inner join old on old.условия_взятия = условия_взятия.ид);
+    DELETE FROM атрибуты WHERE атрибуты.ид = (SELECT атрибуты_ид FROM награды inner join old on old.награда = награды.ид);
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER remove_quest
+    AFTER DELETE
+    ON квесты
+    FOR EACH ROW
+EXECUTE PROCEDURE delete_cascade_quest();
+
+--
+
+--индексы
+
+create index if not exists название_квест_индекс on квесты using hash (название);
+create index if not exists ид_условие_взятия on условия_взятия using hash (ид);
+create index if not exists ид_награда on награды using hash (ид);
+create index if not exists ид_атрибуты on атрибуты using hash (ид);
+
+--
+
