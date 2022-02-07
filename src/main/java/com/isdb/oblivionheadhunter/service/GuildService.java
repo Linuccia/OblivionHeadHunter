@@ -44,7 +44,7 @@ public class GuildService {
         return memberRepository.findById(id).isPresent();
     }
 
-    public Guild checkLeader(String heroName, String guildName) {
+    public Guild checkLeader(String heroName) {
         return guildRepository.findByAdminName(heroName);
     }
 

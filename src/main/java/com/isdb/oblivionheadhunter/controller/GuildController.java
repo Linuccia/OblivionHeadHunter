@@ -33,7 +33,8 @@ public class GuildController {
     @PostMapping("/quests")
     List<Quest> showGuildQuest(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (service.getMemberByHeroNameAndGuildName(principalLogin, guildName) == null) return null;
+        if (!service.checkGuildMember(principalLogin, guildName)
+                && service.checkLeader(principalLogin) == null) return null;
         return service.getGuildQuests(guildName);
     }
 
@@ -41,7 +42,8 @@ public class GuildController {
     @PostMapping("/check")
     ResponseEntity<?> checkMembership(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (service.checkGuildMember(principalLogin, guildName) || service.checkLeader(principalLogin, guildName) != null)
+        if (service.checkGuildMember(principalLogin, guildName)
+                || service.checkLeader(principalLogin) != null)
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
