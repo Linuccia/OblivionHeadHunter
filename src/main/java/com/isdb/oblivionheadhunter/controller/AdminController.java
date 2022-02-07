@@ -1,6 +1,7 @@
 package com.isdb.oblivionheadhunter.controller;
 
 import com.isdb.oblivionheadhunter.model.GuildMember;
+import com.isdb.oblivionheadhunter.model.Quest;
 import com.isdb.oblivionheadhunter.model.Request;
 import com.isdb.oblivionheadhunter.model.pojo.NewQuest;
 import com.isdb.oblivionheadhunter.model.pojo.RequestDecision;
@@ -31,6 +32,13 @@ public class AdminController {
         return service.getRequests(principalLogin);
     }
 
+    @GetMapping("/quests")
+    List<Quest> showQuests() {
+        String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getQuests(principalLogin);
+    }
+
+    // TODO
     @PostMapping("/members/rang")
     ResponseEntity<?> changeRang(@RequestBody GuildMember guildMember) {
         service.changeRang(guildMember.getId().getHeroName(),
