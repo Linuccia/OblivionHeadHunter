@@ -1,7 +1,6 @@
 package com.isdb.oblivionheadhunter.controller;
 
 import com.isdb.oblivionheadhunter.model.GuildMember;
-import com.isdb.oblivionheadhunter.model.Quest;
 import com.isdb.oblivionheadhunter.model.Request;
 import com.isdb.oblivionheadhunter.model.pojo.NewQuest;
 import com.isdb.oblivionheadhunter.model.pojo.RequestDecision;
@@ -19,52 +18,43 @@ import java.util.List;
 @RequestMapping("/main/admin")
 public class AdminController {
 
-    private final AdminService adminService;
+    private final AdminService service;
 
     @Autowired
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
+    public AdminController(AdminService service) {
+        this.service = service;
     }
 
     @GetMapping("/requests")
     List<Request> showRequests() {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-        return adminService.getRequests(principalLogin);
+        return service.getRequests(principalLogin);
     }
 
-    @GetMapping("/quests")
-    List<Quest> showQuests() {
-        String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-        return adminService.getQuests(principalLogin);
-    }
-
-    // нужно сделать
     @PostMapping("/members/rang")
     ResponseEntity<?> changeRang(@RequestBody GuildMember guildMember) {
-        adminService.changeRang(guildMember.getId().getHeroName(),
+        service.changeRang(guildMember.getId().getHeroName(),
                 guildMember.getId().getGuildName(), guildMember.getRang());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // нужно сделать
     @PostMapping("/requests/enter")
     ResponseEntity<?> considerEnterGuild(@RequestBody RequestDecision requestDecision) {
-        adminService.considerEnterGuild(requestDecision.getRequest().getId(),
+        service.considerEnterGuild(requestDecision.getRequest().getId(),
                 requestDecision.getDecision(), requestDecision.getRang());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // нужно сделать
     @PostMapping("/requests/end")
     ResponseEntity<?> considerEndQuest(@RequestBody RequestDecision requestDecision) {
-        adminService.considerEndQuest(requestDecision.getRequest().getId(), requestDecision.getDecision());
+        service.considerEndQuest(requestDecision.getRequest().getId(), requestDecision.getDecision());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/quests/new")
     ResponseEntity<?> addQuest(@RequestBody NewQuest quest) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (adminService.addQuest(quest.getQuest().getName(), principalLogin, quest.getQuest().getDescription(),
+        if (service.addQuest(quest.getQuest().getName(), principalLogin, quest.getQuest().getDescription(),
                 quest.getMinLevel(), quest.getCondition(), quest.getRewardDescription(), quest.getReward()))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
