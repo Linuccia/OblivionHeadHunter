@@ -309,9 +309,9 @@ begin
              inner join атрибуты а on ув.атрибуты_ид = а.ид
     where к.название = quest_name;
 
-    if u_level <= q_level and u_power <= q_power and u_intellect <= q_intellect and
-       u_willpower <= q_willpower and u_dexternity <= q_dexternity and u_speed <= q_speed and
-       u_endurance <= q_endurance and u_charm <= q_charm and u_luck <= q_luck then
+    if u_level >= q_level and u_power >= q_power and u_intellect >= q_intellect and
+       u_willpower >= q_willpower and u_dexternity >= q_dexternity and u_speed >= q_speed and
+       u_endurance >= q_endurance and u_charm >= q_charm and u_luck >= q_luck then
         update квесты set герой_имя=user_id, статус='начат' where название = quest_name;
         return true;
     else
@@ -327,8 +327,12 @@ create or replace function ENTER_GUILD_REQUEST(hero_name varchar, guild_name var
     Language plpgsql
 as
 $$
+    declare flag integer;
 begin
-    insert into заявки values (nextval('заявки_ids'), 'вступление', hero_name, guild_name, null);
+    select count(*) into flag from заявки where тип='вступление' and герой_имя=hero_name and гильдия_название=guild_name;
+    if flag=0 then
+        insert into заявки values (nextval('заявки_ids'), 'вступление', hero_name, guild_name, null);
+    end if;
 end;
 $$;
 
@@ -354,15 +358,18 @@ create or replace function END_QUEST_REQUEST(quest_name varchar, result varchar,
     Language plpgsql
 as
 $$
-declare guild_name varchar; hero_name varchar;
+declare guild_name varchar; hero_name varchar; flag integer;
 begin
     select гильдия_название, герой_имя into guild_name, hero_name from квесты where название=quest_name and статус='начат';
-    if result='провал' then
-        update квесты set герой_имя = NULL, статус  = NULL where название=quest_name;
-    else if result='успех' then
-        update квесты set статус = 'рассматривается' where название = quest_name;
-        insert into заявки values (nextval('заявки_ids'), 'завершение_квеста', hero_name, guild_name, description);
-    end if;
+    select count(*) into flag from заявки where тип='завершение_квеста' and герой_имя=hero_name and гильдия_название=guild_name;
+    if flag=0 then
+        if result='провал' then
+            update квесты set герой_имя = NULL, статус  = NULL where название=quest_name;
+        else if result='успех' then
+            update квесты set статус = 'рассматривается' where название = quest_name;
+            insert into заявки values (nextval('заявки_ids'), 'завершение_квеста', hero_name, guild_name, description);
+        end if;
+        end if;
     end if;
 end;
 $$;
