@@ -374,15 +374,15 @@ begin
 end;
 $$;
 
-create or replace function CONSIDER_END_QUEST_REQUEST(request_id int, decision varchar) returns void
-    Language plpgsql
+create function consider_end_quest_request(request_id integer, decision character varying) returns void
+    language plpgsql
 as
 $$
 declare hero_name varchar; quest_name varchar; b_power int; b_intellect int; b_willpower int; b_dexternity int; b_speed int;
         b_endurance  int; b_charm int; b_luck int; attributes_id bigint;
 begin
     select герой_имя into hero_name from заявки where ид=request_id;
-    select название into quest_name from квесты where герой_имя=hero_name and статус='начат';
+    select название into quest_name from квесты where герой_имя=hero_name and статус='рассматривается';
     if decision = 'одобрить' then
         update квесты set статус='завершен' where название=quest_name;
         select а.сила,
@@ -415,9 +415,9 @@ begin
                             обаяние = обаяние + b_charm,
                             удача = удача + b_luck
         where ид=attributes_id;
-        update герои set уровень = уровень + 1 where имя = 'hero_name';
+        update герои set уровень = уровень + 1 where имя = hero_name;
     else if decision='отклонить' then
-        update квесты set герой_имя=NULL, статус=NULL where герой_имя=hero_name and статус='начат';
+        update квесты set герой_имя=NULL, статус=NULL where герой_имя=hero_name and статус='рассматривается';
     end if;
     end if;
     delete from заявки where ид=request_id;

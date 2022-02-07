@@ -14,7 +14,7 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findByGuildName(String guildName);
     Optional<Request> findById(Integer id);
 
-    @Query(value = "select * from consider_end_quest_request(:requestId, :decision)", nativeQuery = true)
+    @Query(value = "select count(*) from consider_end_quest_request(:requestId, :decision)", nativeQuery = true)
     void considerEndQuest(Integer requestId, String decision);
 
     @Query(value = "select count(*) from consider_enter_guild_request(:requestId, :decision, :rang)", nativeQuery = true)
