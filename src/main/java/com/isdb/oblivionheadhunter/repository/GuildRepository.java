@@ -1,6 +1,7 @@
 package com.isdb.oblivionheadhunter.repository;
 
 import com.isdb.oblivionheadhunter.model.Guild;
+import com.isdb.oblivionheadhunter.model.Quest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

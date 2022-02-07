@@ -37,18 +37,20 @@ public class GuildController {
         return service.getGuildQuests(guildName);
     }
 
+
     @PostMapping("/check")
     ResponseEntity<?> checkMembership(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (service.checkGuildMember(principalLogin, guildName)) return new ResponseEntity<>(HttpStatus.OK);
+        if (service.checkGuildMember(principalLogin, guildName) || service.checkLeader(principalLogin, guildName) != null)
+            return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    // несколько запросов?
     @PostMapping("/enter")
     ResponseEntity<?> enterGuild(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
         service.enterGuild(principalLogin, guildName);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

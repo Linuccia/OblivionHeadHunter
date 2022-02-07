@@ -1,7 +1,6 @@
 package com.isdb.oblivionheadhunter.service;
 
-import com.isdb.oblivionheadhunter.model.Attributes;
-import com.isdb.oblivionheadhunter.model.Request;
+import com.isdb.oblivionheadhunter.model.*;
 import com.isdb.oblivionheadhunter.repository.GuildMemberRepository;
 import com.isdb.oblivionheadhunter.repository.GuildRepository;
 import com.isdb.oblivionheadhunter.repository.QuestRepository;
@@ -9,6 +8,7 @@ import com.isdb.oblivionheadhunter.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +22,14 @@ public class AdminService {
 
     public List<Request> getRequests(String adminName) {
         return requestRepository.findByGuildName(guildRepository.findByAdminName(adminName).getName());
+    }
+
+    public List<Quest> getQuests(String adminName) {
+        String guildName = guildRepository.findByAdminName(adminName).getName();
+        List<Quest> list = new ArrayList<>();
+        list.addAll(questRepository.findByGuildNameAndStatus(guildName, null));
+        list.addAll(questRepository.findByGuildNameAndStatus(guildName, "начат"));
+        return list;
     }
 
     public void changeRang(String heroName, String guildName, String rang) {
@@ -38,7 +46,7 @@ public class AdminService {
 
     public boolean addQuest(String name, String adminName, String description,
                             Integer minLevel, Attributes condition, String rewDescription, Attributes reward) {
-        if (questRepository.findByName(name) == null) return false;
+        if (questRepository.findByName(name) != null) return false;
         Integer condId = questRepository.setConditions(minLevel, condition.getPower(), condition.getIntellect(),
                 condition.getWillpower(), condition.getDexterity(), condition.getSpeed(), condition.getEndurance(),
                 condition.getCharm(), condition.getLuck());

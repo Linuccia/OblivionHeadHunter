@@ -27,11 +27,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors();
-        httpSecurity.csrf().disable()
+        httpSecurity.csrf().disable();
+
+        httpSecurity
                 .authorizeRequests()
-                .antMatchers("/create", "/getRace", "/getClass", "/getGalaxy").permitAll()
-                .antMatchers("/login")
-                .fullyAuthenticated()
+                .antMatchers("/create", "/getRace", "/getClass", "/getGalaxy").permitAll();
+
+        httpSecurity
+                .authorizeRequests()
+                .antMatchers("/login").permitAll().
+                and().httpBasic();
+
+        httpSecurity.authorizeRequests()
+                .antMatchers("/main/guild/quests", "/main/guild/check").permitAll()
+                .antMatchers("/main/user/*", "/main/guild/enter").hasAuthority("ROLE_USER")
+                .antMatchers("/main/admin/*").hasAuthority("ROLE_ADMIN")
                 .and()
                 .httpBasic();
     }

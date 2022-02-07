@@ -320,7 +320,7 @@ as
 $$
 declare hero_name varchar; guild_name varchar;
 begin
-    if decision = 'принять' then
+    if decision = 'одобрить' then
         select hero_name=герой_имя, guild_name=гильдия_название from заявки where ид=request_id;
         insert into гильдии_составы values (hero_name, guild_name, rang);
         delete from заявки where ид=request_id;
