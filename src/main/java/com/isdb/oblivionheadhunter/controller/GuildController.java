@@ -48,7 +48,6 @@ public class GuildController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    // несколько запросов?
     @PostMapping("/enter")
     ResponseEntity<?> enterGuild(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();

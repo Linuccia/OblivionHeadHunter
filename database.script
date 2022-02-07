@@ -381,8 +381,8 @@ $$
 declare hero_name varchar; quest_name varchar; b_power int; b_intellect int; b_willpower int; b_dexternity int; b_speed int;
         b_endurance  int; b_charm int; b_luck int; attributes_id bigint;
 begin
-    select hero_name=герой_имя from заявки where ид=request_id;
-    select quest_name=название from квесты where герой_имя=hero_name and статус='начат';
+    select герой_имя into hero_name from заявки where ид=request_id;
+    select название into quest_name from квесты where герой_имя=hero_name and статус='начат';
     if decision = 'одобрить' then
         update квесты set статус='завершен' where название=quest_name;
         select а.сила,
@@ -405,7 +405,7 @@ begin
                  inner join награды н on к.награда = н.ид
                  inner join атрибуты а on н.атрибуты_ид = а.ид
         where к.название = quest_name;
-        select attributes_id=атрибуты_ид from герои where имя=hero_name;
+        select атрибуты_ид into attributes_id from герои where имя=hero_name;
         update атрибуты set сила = сила + b_power,
                             интеллект = интеллект + b_power,
                             сила_воли = сила_воли + b_willpower,

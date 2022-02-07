@@ -40,8 +40,6 @@ public class HeroController {
         return service.getHeroQuests(principalLogin);
     }
 
-
-    // нужно сделать
     @PostMapping("/quests/end")
     ResponseEntity<?> endQuest(@RequestBody QuestEnd questEnd) {
         service.endQuest(questEnd.getQuestName(), questEnd.getResult(), questEnd.getDescription());

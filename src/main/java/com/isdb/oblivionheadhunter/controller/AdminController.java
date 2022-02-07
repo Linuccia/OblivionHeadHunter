@@ -38,7 +38,6 @@ public class AdminController {
         return service.getQuests(principalLogin);
     }
 
-    // TODO
     @PostMapping("/members/rang")
     ResponseEntity<?> changeRang(@RequestBody GuildMember guildMember) {
         service.changeRang(guildMember.getId().getHeroName(),

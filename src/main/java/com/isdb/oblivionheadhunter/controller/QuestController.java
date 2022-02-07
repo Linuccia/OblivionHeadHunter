@@ -37,7 +37,6 @@ public class QuestController {
         return info;
     }
 
-    // нужно сделать
     @PostMapping("/take")
     ResponseEntity<?> takeQuest(@RequestBody String questName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
