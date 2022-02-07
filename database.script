@@ -264,36 +264,54 @@ declare
     u_endurance  int; u_charm int; u_luck int; q_level int; q_power int; q_intellect int; q_willpower int;
     q_dexternity int; q_speed int; q_endurance int; q_charm int; q_luck int;
 begin
-    select @u_level = г.уровень,
-           @u_power = а.сила,
-           @u_intellect = а.интеллект,
-           @u_willpower = а.сила_воли,
-           @u_dexternity = а.ловкость,
-           @u_speed = а.скорость,
-           @u_endurance = а.выносливость,
-           @u_charm = а.обаяние,
-           @u_luck = а.удача
+    select г.уровень,
+           а.сила,
+           а.интеллект,
+           а.сила_воли,
+           а.ловкость,
+           а.скорость,
+           а.выносливость,
+           а.обаяние,
+           а.удача
+    into u_level,
+        u_power,
+        u_intellect,
+        u_willpower,
+        u_dexternity,
+        u_speed,
+        u_endurance,
+        u_charm,
+        u_luck
     from герои г
              inner join атрибуты а on г.атрибуты_ид = а.ид
     where г.имя = user_id;
 
-    select @q_level = ув.мин_уровень,
-           @q_power = а.сила,
-           @q_intellect = а.интеллект,
-           @q_willpower = а.сила_воли,
-           @q_dexternity = а.ловкость,
-           @q_speed = а.скорость,
-           @q_endurance = а.выносливость,
-           @q_charm = а.обаяние,
-           @q_luck = а.удача
+    select ув.мин_уровень,
+           а.сила,
+           а.интеллект,
+           а.сила_воли,
+           а.ловкость,
+           а.скорость,
+           а.выносливость,
+           а.обаяние,
+           а.удача
+    into q_level,
+        q_power,
+        q_intellect,
+        q_willpower,
+        q_dexternity,
+        q_speed,
+        q_endurance,
+        q_charm,
+        q_luck
     from квесты к
              inner join условия_взятия ув on к.условия_взятия = ув.ид
              inner join атрибуты а on ув.атрибуты_ид = а.ид
     where к.название = quest_name;
 
-    if @u_level <= q_level and @u_power <=@ q_power and @u_intellect <=@ q_intellect and
-       @u_willpower <=@ q_willpower and @u_dexternity <=@ q_dexternity and @u_speed <=@ q_speed and
-       @u_endurance <=@ q_endurance and @u_charm <=@ q_charm and @u_luck <=@ q_luck then
+    if u_level <= q_level and u_power <= q_power and u_intellect <= q_intellect and
+       u_willpower <= q_willpower and u_dexternity <= q_dexternity and u_speed <= q_speed and
+       u_endurance <= q_endurance and u_charm <= q_charm and u_luck <= q_luck then
         update квесты set герой_имя=user_id, статус='начат' where название = quest_name;
         return true;
     else
@@ -321,7 +339,7 @@ $$
 declare hero_name varchar; guild_name varchar;
 begin
     if decision = 'одобрить' then
-        select hero_name=герой_имя, guild_name=гильдия_название from заявки where ид=request_id;
+        select герой_имя, гильдия_название into hero_name, guild_name from заявки where ид=request_id;
         insert into гильдии_составы values (hero_name, guild_name, rang);
         delete from заявки where ид=request_id;
     end if;
@@ -338,7 +356,7 @@ as
 $$
 declare guild_name varchar; hero_name varchar;
 begin
-    select guild_name=гильдия_название, hero_name=герой_имя from квесты where название=quest_name and статус='начат';
+    select гильдия_название, герой_имя into guild_name, hero_name from квесты where название=quest_name and статус='начат';
     if result='провал' then
         update квесты set герой_имя = NULL, статус  = NULL where название=quest_name;
     else if result='успех' then
@@ -360,14 +378,22 @@ begin
     select quest_name=название from квесты where герой_имя=hero_name and статус='начат';
     if decision = 'одобрить' then
         update квесты set статус='завершен' where название=quest_name;
-        select @b_power = а.сила,
-               @b_intellect = а.интеллект,
-               @b_willpower = а.сила_воли,
-               @b_dexternity = а.ловкость,
-               @b_speed = а.скорость,
-               @b_endurance = а.выносливость,
-               @b_charm = а.обаяние,
-               @b_luck = а.удача
+        select а.сила,
+               а.интеллект,
+               а.сила_воли,
+               а.ловкость,
+               а.скорость,
+               а.выносливость,
+               а.обаяние,
+               а.удача
+        into b_power,
+            b_intellect,
+            b_willpower,
+            b_dexternity,
+            b_speed,
+            b_endurance,
+            b_charm,
+            b_luck
         from квесты к
                  inner join награды н on к.награда = н.ид
                  inner join атрибуты а on н.атрибуты_ид = а.ид
