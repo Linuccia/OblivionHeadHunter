@@ -26,6 +26,12 @@ public class AdminController {
         this.service = service;
     }
 
+    @GetMapping("/members")
+    List<GuildMember> showGuildMembers() {
+        String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getGuildMembers(principalLogin);
+    }
+
     @GetMapping("/requests")
     List<Request> showRequests() {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();

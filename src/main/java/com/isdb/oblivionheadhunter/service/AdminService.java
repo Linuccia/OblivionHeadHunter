@@ -24,6 +24,10 @@ public class AdminService {
         return guildRepository.findByAdminName(adminName).getName();
     }
 
+    public List<GuildMember> getGuildMembers(String adminName) {
+        return memberRepository.findByIdGuildName(getGuildName(adminName));
+    }
+
     public List<Request> getRequests(String adminName) {
         return requestRepository.findByGuildName(getGuildName(adminName));
     }
