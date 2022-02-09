@@ -27,7 +27,7 @@ public class GuildController {
     List<GuildMember> showGuildMembers(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
         if (service.getMemberByHeroNameAndGuildName(principalLogin, guildName) == null
-                || service.checkLeader(principalLogin) == null) return null;
+                && service.checkLeader(principalLogin) == null) return null;
         return service.getGuildMembers(guildName);
     }
 
