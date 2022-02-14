@@ -46,6 +46,7 @@ public class AdminController {
 
     @PostMapping("/members/rang")
     ResponseEntity<?> changeRang(@RequestBody GuildMember guildMember) {
+        System.out.println(guildMember.getRang());
         service.changeRang(guildMember.getId().getHeroName(),
                 guildMember.getId().getGuildName(), guildMember.getRang());
         return new ResponseEntity<>(HttpStatus.OK);

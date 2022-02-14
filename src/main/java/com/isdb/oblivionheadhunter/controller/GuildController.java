@@ -39,7 +39,6 @@ public class GuildController {
         return service.getGuildQuests(guildName);
     }
 
-
     @PostMapping("/check")
     ResponseEntity<?> checkMembership(@RequestBody String guildName) {
         String principalLogin = SecurityContextHolder.getContext().getAuthentication().getName();
